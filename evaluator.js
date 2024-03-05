@@ -1,65 +1,73 @@
 var char_pinyin = {};
 
 var schemes = {
-  加加:'Q=ing er,W=ei,R=en,T=eng,Y=ong iong,U=ch,I=sh,O=uo,P=ou,S=ai,D=ao,F=an,G=ang,H=iang uang,J=ian,K=iao,L=in,Z=un,X=ve ue uai,C=uan,V=zh ui,B=ia ua,N=iu,M=ie',
-  小鹤:'Q=iu,W=ei,R=uan er,T=ve ue,Y=un,U=sh,I=ch,O=uo,P=ie,S=ong iong,D=ai,F=en,G=eng,H=ang,J=an,K=ing uai,L=iang uang,Z=ou,X=ia ua,C=ao,V=zh ui,B=in,N=iao,M=ian',
-  微软:'Q=iu,W=ia ua,R=uan er,T=ue,Y=uai v,U=sh,I=ch,O=uo 0,P=un,S=ong iong,D=uang iang,F=en,G=eng,H=ang,J=an,K=ao,L=ai,FH=ing,Z=ei,X=ie,C=iao,V=zh ui ve,B=ou,N=in,M=ian',
-  智能ABC:'Q=ei,W=ian,E=ch,R=iu er,T=iang uang,Y=ing,O=uo 0,P=uan,A=zh,S=ong iong,D=ia ua,F=en,G=eng,H=ang,J=an,K=ao,L=ai,Z=iao,X=ie,C=in uai,V=sh,B=ou,N=un,M=ui ve ue',
-  紫光:'Q=ao,W=en,R=an,T=eng,Y=in uai,U=zh,I=sh,O=uo 0,P=ai,A=ch,S=ang,D=ie,F=ian,G=iang uang,H=ong iong,J=iu er,K=ei,L=uan,FH=ing,Z=ou,X=ia ua,B=iao,N=ui ve ue,M=un',
-  自然码:'Q=iu,W=ia ua,R=uan er,T=ve ue,Y=ing uai,U=sh,I=ch,O=uo,P=un,S=ong iong,D=iang uang,F=en,G=eng,H=ang,J=an,K=ao,L=ai,Z=ei,X=ie,C=iao,V=zh ui,B=ou,N=in,M=ian',
-  国标:'Q=ia ua,W=uan,R=en,T=ie,Y=iu uai,U=sh,I=ch,O=uo,P=ou,A=0,S=ong iong,D=ian,F=an,G=ang,H=eng,J=ing,K=ai,L=in er,Z=un,X=ue ve,C=ao,V=zh ui,B=ei,N=iang uang,M=iao',
-  大牛:'Q=ua ian,W=vn ei,E=0,R=ou,T=iu,Y=un,U=sh er,I=ch,O=zh uo,P=ie,A=zh,S=ao,D=an,F=ang,G=uai ing,H=ai ue,J=eng van,K=en ia,L=ong iong,Z=uan,X=ve uang,C=ian,V=sh ui,B=in,N=ui iang,M=iao',
-  飞猫:'Q=c uan,W=s ue ve,E=y ing uang,R=k in uai,T=g iu,Y=n eng vn,U=f an,I=m e,O=0 ou,P=d a,A=sh ang,S=l ei,D=d ian ua,F=ch un,G=h ui er iang,H=w uo o,J=j ao,K=q i,L=p u,Z=z v,X=b i,C=zh ie,V=r en ia,B=t iao,N=sh ong iong,M=x ai van',
-  UAI优化:'Q=iu,W=en,E=zh,R=ou,T=ue ve ui,Y=uan,U=sh,I=ch,O=uo 0,P=un,S=ao,D=ang,F=eng,G=ing er,H=ong iong,J=ai,K=an,L=ian uai,FH=iang uang,X=ia ua,C=ie,B=in,N=iao,M=ei',
-  UAI优化顶功:'Q=iu,W=en,E=zh,R=ou,T=ue ve ui,Y=uan,U=sh,I=ch,O=uo -,P=un,A=^,S=ao,D=ang,F=eng er,G=ing,H=ong iong,J=ai 0,K=an,L=ian uai,FH=iang uang \\,X=ia ua,C=ie,V=|,B=in,N=iao,M=ei,CH=/',
-  乱序优化:'Q=ua,W=x uan,E=q uang v,R=j ue ve ui,T=0 un,Y=c iu,U=g ing,I=k iong ou,O=h iang,P=ie,A=t ong,S=l ao,D=y ai,F=d an,G=n ang,H=r in,J=sh e,K=w i er,L=zh u,FH=ch a ia,Z=p ei,X=m en,C=f eng,V=b o uo,B=uai,N=s iao,M=z ian',
-  六六:'W=ao,R=ei,T=ian,Y=iao,U=sh,I=ch,O=uo,P=ou,S=ai,D=en,F=eng,G=ua ia,H=uai ue ve,J=un,K=in,L=ing,FH=ong iong,Z=an,X=ang,C=ie er,V=zh ui,B=uan,N=uang iang,M=iu',
-  自定义:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
-  empty:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
-  全拼:'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH='
+  加加: 'Q=ing er,W=ei,R=en,T=eng,Y=ong iong,U=ch,I=sh,O=uo,P=ou,S=ai,D=ao,F=an,G=ang,H=iang uang,J=ian,K=iao,L=in,Z=un,X=ve ue uai,C=uan,V=zh ui,B=ia ua,N=iu,M=ie',
+  小鹤: 'Q=iu,W=ei,R=uan er,T=ve ue,Y=un,U=sh,I=ch,O=uo,P=ie,S=ong iong,D=ai,F=en,G=eng,H=ang,J=an,K=ing uai,L=iang uang,Z=ou,X=ia ua,C=ao,V=zh ui,B=in,N=iao,M=ian',
+  微软: 'Q=iu,W=ia ua,R=uan er,T=ue,Y=uai v,U=sh,I=ch,O=uo 0,P=un,S=ong iong,D=uang iang,F=en,G=eng,H=ang,J=an,K=ao,L=ai,FH=ing,Z=ei,X=ie,C=iao,V=zh ui ve,B=ou,N=in,M=ian',
+  智能ABC: 'Q=ei,W=ian,E=ch,R=iu er,T=iang uang,Y=ing,O=uo 0,P=uan,A=zh,S=ong iong,D=ia ua,F=en,G=eng,H=ang,J=an,K=ao,L=ai,Z=iao,X=ie,C=in uai,V=sh,B=ou,N=un,M=ui ve ue',
+  紫光: 'Q=ao,W=en,R=an,T=eng,Y=in uai,U=zh,I=sh,O=uo 0,P=ai,A=ch,S=ang,D=ie,F=ian,G=iang uang,H=ong iong,J=iu er,K=ei,L=uan,FH=ing,Z=ou,X=ia ua,B=iao,N=ui ve ue,M=un',
+  自然码: 'Q=iu,W=ia ua,R=uan er,T=ve ue,Y=ing uai,U=sh,I=ch,O=uo,P=un,S=ong iong,D=iang uang,F=en,G=eng,H=ang,J=an,K=ao,L=ai,Z=ei,X=ie,C=iao,V=zh ui,B=ou,N=in,M=ian',
+  国标: 'Q=ia ua,W=uan,R=en,T=ie,Y=iu uai,U=sh,I=ch,O=uo,P=ou,A=0,S=ong iong,D=ian,F=an,G=ang,H=eng,J=ing,K=ai,L=in er,Z=un,X=ue ve,C=ao,V=zh ui,B=ei,N=iang uang,M=iao',
+  大牛: 'Q=ua ian,W=vn ei,E=0,R=ou,T=iu,Y=un,U=sh er,I=ch,O=zh uo,P=ie,A=zh,S=ao,D=an,F=ang,G=uai ing,H=ai ue,J=eng van,K=en ia,L=ong iong,Z=uan,X=ve uang,C=ian,V=sh ui,B=in,N=ui iang,M=iao',
+  飞猫: 'Q=c uan,W=s ue ve,E=y ing uang,R=k in uai,T=g iu,Y=n eng vn,U=f an,I=m e,O=0 ou,P=d a,A=sh ang,S=l ei,D=d ian ua,F=ch un,G=h ui er iang,H=w uo o,J=j ao,K=q i,L=p u,Z=z v,X=b i,C=zh ie,V=r en ia,B=t iao,N=sh ong iong,M=x ai van',
+  UAI优化: 'Q=iu,W=en,E=zh,R=ou,T=ue ve ui,Y=uan,U=sh,I=ch,O=uo 0,P=un,S=ao,D=ang,F=eng,G=ing er,H=ong iong,J=ai,K=an,L=ian uai,FH=iang uang,X=ia ua,C=ie,B=in,N=iao,M=ei',
+  UAI优化顶功: 'Q=iu,W=en,E=zh,R=ou,T=ue ve ui,Y=uan,U=sh,I=ch,O=uo -,P=un,A=^,S=ao,D=ang,F=eng er,G=ing,H=ong iong,J=ai 0,K=an,L=ian uai,FH=iang uang \\,X=ia ua,C=ie,V=|,B=in,N=iao,M=ei,CH=/',
+  乱序优化: 'Q=ua,W=x uan,E=q uang v,R=j ue ve ui,T=0 un,Y=c iu,U=g ing,I=k iong ou,O=h iang,P=ie,A=t ong,S=l ao,D=y ai,F=d an,G=n ang,H=r in,J=sh e,K=w i er,L=zh u,FH=ch a ia,Z=p ei,X=m en,C=f eng,V=b o uo,B=uai,N=s iao,M=z ian',
+  六六: 'W=ao,R=ei,T=ian,Y=iao,U=sh,I=ch,O=uo,P=ou,S=ai,D=en,F=eng,G=ua ia,H=uai ue ve,J=un,K=in,L=ing,FH=ong iong,Z=an,X=ang,C=ie er,V=zh ui,B=uan,N=uang iang,M=iu',
+  自定义: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
+  empty: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
+  全拼: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH='
 };
 
 // Evaluation results of all schemes.
 var results = {};
 
 var keyboard_layouts = {
-qwerty : {
-           'q':[0,0], 'w':[1,0], 'e':[2,0], 'r':[3,0], 't':[4,0],
-           'y':[5,0], 'u':[6,0], 'i':[7,0], 'o':[8,0], 'p':[9,0],
-           'a':[0,1], 's':[1,1], 'd':[2,1], 'f':[3,1], 'g':[4,1],
-           'h':[5,1], 'j':[6,1], 'k':[7,1], 'l':[8,1], ';':[9,1],
-           'z':[0,2], 'x':[1,2], 'c':[2,2], 'v':[3,2], 'b':[4,2],
-           'n':[5,2], 'm':[6,2], ',':[7,2], '.':[8,2], '/':[9,2],
-         },
-dvorak : {
-           '/':[0,0], ',':[1,0], '.':[2,0], 'p':[3,0], 'y':[4,0],
-           'f':[5,0], 'g':[6,0], 'c':[7,0], 'r':[8,0], 'l':[9,0],
-           'a':[0,1], 'o':[1,1], 'e':[2,1], 'u':[3,1], 'i':[4,1],
-           'd':[5,1], 'h':[6,1], 't':[7,1], 'n':[8,1], 's':[9,1],
-           ';':[0,2], 'q':[1,2], 'j':[2,2], 'k':[3,2], 'x':[4,2],
-           'b':[5,2], 'm':[6,2], 'w':[7,2], 'v':[8,2], 'z':[9,2],
-         },
-colemak : {
-            'q':[0,0], 'w':[1,0], 'f':[2,0], 'p':[3,0], 'g':[4,0],
-            'j':[5,0], 'l':[6,0], 'u':[7,0], 'y':[8,0], ';':[9,0],
-            'a':[0,1], 'r':[1,1], 's':[2,1], 't':[3,1], 'd':[4,1],
-            'h':[5,1], 'n':[6,1], 'e':[7,1], 'i':[8,1], 'o':[9,1],
-            'z':[0,2], 'x':[1,2], 'c':[2,2], 'v':[3,2], 'b':[4,2],
-            'k':[5,2], 'm':[6,2], ',':[7,2], '.':[8,2], '/':[9,2],
-          },
-workman : {
-            'q':[0,0], 'd':[1,0], 'r':[2,0], 'w':[3,0], 'b':[4,0],
-            'j':[5,0], 'f':[6,0], 'u':[7,0], 'p':[8,0], ';':[9,0],
-            'a':[0,1], 's':[1,1], 'h':[2,1], 't':[3,1], 'g':[4,1],
-            'y':[5,1], 'n':[6,1], 'e':[7,1], 'o':[8,1], 'i':[9,1],
-            'z':[0,2], 'x':[1,2], 'm':[2,2], 'c':[3,2], 'v':[4,2],
-            'k':[5,2], 'l':[6,2], ',':[7,2], '.':[8,2], '/':[9,2],
-          },
+  qwerty: {
+    'q': [0, 0], 'w': [1, 0], 'e': [2, 0], 'r': [3, 0], 't': [4, 0],
+    'y': [5, 0], 'u': [6, 0], 'i': [7, 0], 'o': [8, 0], 'p': [9, 0], '[': [10, 0],
+    'a': [0, 1], 's': [1, 1], 'd': [2, 1], 'f': [3, 1], 'g': [4, 1],
+    'h': [5, 1], 'j': [6, 1], 'k': [7, 1], 'l': [8, 1], ';': [9, 1], '\'': [10, 1],
+    'z': [0, 2], 'x': [1, 2], 'c': [2, 2], 'v': [3, 2], 'b': [4, 2],
+    'n': [5, 2], 'm': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '~': [10, 2],
+  },
+  dvorak: {
+    '\'': [0, 0], ',': [1, 0], '.': [2, 0], 'p': [3, 0], 'y': [4, 0],
+    'f': [5, 0], 'g': [6, 0], 'c': [7, 0], 'r': [8, 0], 'l': [9, 0], '/': [10, 0],
+    'a': [0, 1], 'o': [1, 1], 'e': [2, 1], 'u': [3, 1], 'i': [4, 1],
+    'd': [5, 1], 'h': [6, 1], 't': [7, 1], 'n': [8, 1], 's': [9, 1], '-': [10, 1],
+    ';': [0, 2], 'q': [1, 2], 'j': [2, 2], 'k': [3, 2], 'x': [4, 2],
+    'b': [5, 2], 'm': [6, 2], 'w': [7, 2], 'v': [8, 2], 'z': [9, 2], '~': [10, 2],
+  },
+  colemak: {
+    'q': [0, 0], 'w': [1, 0], 'f': [2, 0], 'p': [3, 0], 'g': [4, 0],
+    'j': [5, 0], 'l': [6, 0], 'u': [7, 0], 'y': [8, 0], ';': [9, 0], ';': [10, 0],
+    'a': [0, 1], 'r': [1, 1], 's': [2, 1], 't': [3, 1], 'd': [4, 1],
+    'h': [5, 1], 'n': [6, 1], 'e': [7, 1], 'i': [8, 1], 'o': [9, 1], '\'': [10, 1],
+    'z': [0, 2], 'x': [1, 2], 'c': [2, 2], 'v': [3, 2], 'b': [4, 2],
+    'k': [5, 2], 'm': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '~': [10, 2],
+  },
+  workman: {
+    'q': [0, 0], 'd': [1, 0], 'r': [2, 0], 'w': [3, 0], 'b': [4, 0],
+    'j': [5, 0], 'f': [6, 0], 'u': [7, 0], 'p': [8, 0], ';': [9, 0], '[': [10, 0],
+    'a': [0, 1], 's': [1, 1], 'h': [2, 1], 't': [3, 1], 'g': [4, 1],
+    'y': [5, 1], 'n': [6, 1], 'e': [7, 1], 'o': [8, 1], 'i': [9, 1], '\'': [10, 1],
+    'z': [0, 2], 'x': [1, 2], 'm': [2, 2], 'c': [3, 2], 'v': [4, 2],
+    'k': [5, 2], 'l': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '~': [10, 2],
+  },
+  engrammer: {
+    'b': [0, 0], 'y': [1, 0], 'o': [2, 0], 'u': [3, 0], '\'': [4, 0],
+    ';': [5, 0], 'l': [6, 0], 'd': [7, 0], 'w': [8, 0], 'v': [9, 0], 'z': [10, 0],
+    'c': [0, 1], 'i': [1, 1], 'e': [2, 1], 'a': [3, 1], ',': [4, 1],
+    '.': [5, 1], 'h': [6, 1], 't': [7, 1], 's': [8, 1], 'n': [9, 1], 'q': [10, 1],
+    'g': [0, 2], 'x': [1, 2], 'j': [2, 2], 'k': [3, 2], '-': [4, 2],
+    '/': [5, 2], 'r': [6, 2], 'm': [7, 2], 'f': [8, 2], 'p': [9, 2], '~': [10, 2],
+  },
 }
 
 // Column assignment to fingers.
-//                   0  1  2  3  4  5  6  7  8  9
-var column_finger = [0, 1, 2, 3, 3, 6, 6, 7, 8, 9];
+//                   0  1  2  3  4  5  6  7  8  9  9
+var column_finger = [0, 1, 2, 3, 3, 6, 6, 7, 8, 9, 9];
 
 // Finger speed, assuming index = 1.
 //                pinky ring mid index thumb thumb index mid ring pinky
@@ -70,12 +78,12 @@ var finger_speed = [0.6, 0.9, 0.9, 1.0, 1.0, 1.0, 1.0, 0.9, 0.9, 0.6];
 var press_depth = 0.2;
 
 // Maps between  punctuations to keys.
-var punctuation_names = {';':'FH', ',':'DH', '.':'JH', '/':'CH', '\'':'YH'};
-var punctuation_keys = {'FH':';', 'DH':',', 'JH':'.', 'CH':'/', 'YH':'\''};
+var punctuation_names = { ';': 'FH', ',': 'DH', '.': 'JH', '/': 'CH', '\'': 'YH' };
+var punctuation_keys = { 'FH': ';', 'DH': ',', 'JH': '.', 'CH': '/', 'YH': '\'' };
 
 // Punctuations from input text.
 var punctuations = {
-    '，':',', '。':'.', '；':';', ',':',', '.':'.', ';':';', '/':'/'
+  '，': ',', '。': '.', '；': ';', ',': ',', '.': '.', ';': ';', '/': '/'
 };
 
 var letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -96,7 +104,7 @@ function split_pinyin(pinyin) {
     sheng = pinyin.substr(0, 1);
     yun = pinyin.substr(1);
   }
-  return {sheng:sheng, yun:yun};
+  return { sheng: sheng, yun: yun };
 }
 
 var sheng_yun_freq = {};
@@ -215,7 +223,7 @@ function stat_pinyin() {
 
 function save_pinyin_stats(type, freq, total) {
   var keys = Object.keys(freq);
-  keys.sort(function(a, b) { return freq[b] - freq[a]; });
+  keys.sort(function (a, b) { return freq[b] - freq[a]; });
   var stats = '';
   for (var i = 0; i < keys.length; ++i) {
     var key = keys[i];
@@ -292,7 +300,7 @@ function show_layout() {
   for (var key in layout) {
     var x = layout[key][0];
     var y = layout[key][1];
-    set_inner_html('key_' + y + x, key.toUpperCase());
+    set_inner_html('key_' + y + '_' + x, key.toUpperCase());
   }
 }
 
@@ -315,6 +323,7 @@ function add_empty_results(scheme_name) {
     dvorak: {},
     colemak: {},
     workman: {},
+    engrammer: {},
   };
 }
 
@@ -330,10 +339,11 @@ function show_scheme(scheme_name) {
   var assignments = scheme.split(',');
   for (var i = 0; i < assignments.length; ++i) {
     var items = assignments[i].split('=');
+    console.log(items);
     var key = key_name_to_key(items[0]);
     var x = layout[key][0];
     var y = layout[key][1];
-    document.getElementById('py_' + y + x).value = items[1];
+    document.getElementById('py_' + y + '_' + x).value = items[1];
   }
 }
 
@@ -379,7 +389,7 @@ function get_scheme_from_keyboard() {
     var key_name = key_to_key_name(key);
     var x = layout[key][0];
     var y = layout[key][1];
-    var pinyin = document.getElementById('py_' + y + x).value;
+    var pinyin = document.getElementById('py_' + y + '_' + x).value;
     if (scheme != '') {
       scheme += ',';
     }
@@ -427,7 +437,7 @@ function read_pinyin_map_from_scheme(scheme) {
       pinyin_map[letters[i]] = letters[i];
     }
   }
-  return {pinyin_map: pinyin_map, error:error};
+  return { pinyin_map: pinyin_map, error: error };
 }
 
 function pinyin_to_key_strokes(pinyin, sheng_yun_key_map, layout, is_staggered) {
@@ -445,15 +455,15 @@ function pinyin_to_key_strokes(pinyin, sheng_yun_key_map, layout, is_staggered) 
   var sheng_key = sheng_yun_key_map[sheng];
   if (yun == '') {
     // 零韵母
-    return {key_strokes: sheng_key, error: ''};
+    return { key_strokes: sheng_key, error: '' };
   }
   var yun_key = sheng_yun_key_map[yun];
   if (sheng_key == null || yun_key == null) {
     var error = '无法打出拼音' + pinyin + '=' + sheng + '+' + yun + '\n';
-    return {key_strokes: '', error: error};
+    return { key_strokes: '', error: error };
   }
   var best = get_multi_key_pair_time(sheng_key, yun_key, layout, is_staggered);
-  return {key_strokes: best.key_strokes, error: ''};
+  return { key_strokes: best.key_strokes, error: '' };
 }
 
 function all_pinyin_to_key_strokes(all_pinyin, sheng_yun_key_map) {
@@ -466,7 +476,7 @@ function all_pinyin_to_key_strokes(all_pinyin, sheng_yun_key_map) {
   for (var i = 0; i < all_pinyin.length; ++i) {
     var conversion = pinyin_to_key_strokes(all_pinyin[i], sheng_yun_key_map, layout, is_staggered);
     if (conversion.error != '') {
-      return {pinyin_key_map: {}, error: conversion.error};
+      return { pinyin_key_map: {}, error: conversion.error };
     }
     pinyin_key_map[all_pinyin[i]] = conversion.key_strokes;
     var existing_pinyin = key_pinyin_map[conversion.key_strokes];
@@ -478,7 +488,7 @@ function all_pinyin_to_key_strokes(all_pinyin, sheng_yun_key_map) {
     }
   }
   //console.log(pinyin_key_map);
-  return {pinyin_key_map: pinyin_key_map, error: error};
+  return { pinyin_key_map: pinyin_key_map, error: error };
 }
 
 function get_irrational_char_pinyin() {
@@ -515,7 +525,7 @@ function convert_text_to_key_strokes(scheme_name, scheme) {
   } else {
     var conversion = all_pinyin_to_key_strokes(merged_all_pinyin, pm.pinyin_map);
     if (Object.keys(conversion.pinyin_key_map).length < merged_all_pinyin.length) {
-      return {strokes: '', error: conversion.error};
+      return { strokes: '', error: conversion.error };
     }
     pinyin_key_map = conversion.pinyin_key_map;
     error += conversion.error;
@@ -571,7 +581,7 @@ function convert_text_to_key_strokes(scheme_name, scheme) {
   if (ignored_pinyins.size > 0) {
     console.log('忽略的拼音: ' + Array.from(ignored_pinyins).join('，'));
   }
-  return {chars:chars, strokes:key_strokes, error:error};
+  return { chars: chars, strokes: key_strokes, error: error };
 }
 
 function hit_key_strokes(key_strokes) {
@@ -585,9 +595,9 @@ function hit_key_strokes(key_strokes) {
   result.same_finger_hits = [0, 0, 0, 0];
   result.diff_finger_hits = [0, 0, 0, 0];
   result.heat_map = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ];
 
   var geometry = document.getElementById('geometry').value;
@@ -615,7 +625,7 @@ function hit_key_strokes(key_strokes) {
     } else {
       same_hand = is_right(last_column)
       x0 = finger + right_hand_pos[0];
-      y0  = 1 + right_hand_pos[1];
+      y0 = 1 + right_hand_pos[1];
       right_hand_pos = [x - finger, y - 1];
     }
     var d = press_depth;
@@ -633,9 +643,9 @@ function hit_key_strokes(key_strokes) {
       result.overlap_distance += distance(x0, y0, x, y, is_staggered);
     }
     if (finger == column_finger[last_column]) {
-        result.same_finger_hits[Math.floor(d)] += 1;
+      result.same_finger_hits[Math.floor(d)] += 1;
     } else if (same_hand) {
-        result.diff_finger_hits[Math.floor(d)] += 1;
+      result.diff_finger_hits[Math.floor(d)] += 1;
     }
 
     last_column = x;
@@ -680,14 +690,14 @@ function show_results(scheme_name) {
   set_inner_html('overlap_distance', Math.round(result.overlap_distance));
   set_inner_html('avg_overlap_distance', (result.overlap_distance / hits).toFixed(2));
 
-  set_inner_html('same_hand', percent_str(result.same_hand_hits , hits));
+  set_inner_html('same_hand', percent_str(result.same_hand_hits, hits));
   for (var i = 0; i < 3; ++i) {
     set_inner_html('same_finger_' + i,
-                   percent_str(result.same_finger_hits[i], hits));
+      percent_str(result.same_finger_hits[i], hits));
   }
   for (var i = 0; i < 3; ++i) {
     set_inner_html('diff_finger_' + i,
-                   percent_str(result.diff_finger_hits[i], hits));
+      percent_str(result.diff_finger_hits[i], hits));
   }
 
   var row_load = [0, 0, 0];
@@ -736,7 +746,7 @@ function show_heat_map(result) {
   for (var key in layout) {
     var x = layout[key][0];
     var y = layout[key][1];
-    var cell = document.getElementById('heat_' + y + x);
+    var cell = document.getElementById('heat_' + y + '_' + x);
     if (result == null) {
       cell.innerHTML = '&nbsp;';
       cell.style.backgroundColor = 'inherit';
@@ -757,7 +767,7 @@ function distance(x0, y0, x1, y1, is_staggered) {
     if (y1 > 0)
       x1 += 0.25 + (y1 - 1) * 0.5;
   }
-  return Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+  return Math.sqrt((x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1));
 }
 
 function is_left(x) {
@@ -828,8 +838,8 @@ function get_multi_key_pair_time(sheng_keys, yun_keys, layout, is_staggered) {
       combo_costs[sheng_keys[s] + yun_keys[y]] = cost;
     }
   }
-  var [best_combo] = Object.entries(combo_costs).sort(([ ,v1], [ ,v2]) => v1 - v2);
-  return {key_strokes: best_combo[0], hit_time: best_combo[1]};
+  var [best_combo] = Object.entries(combo_costs).sort(([, v1], [, v2]) => v1 - v2);
+  return { key_strokes: best_combo[0], hit_time: best_combo[1] };
 }
 
 function fast_evaluate_scheme(pinyin_map, pair_freq) {
@@ -918,7 +928,7 @@ function improve_scheme() {
       if (time < baseline) {
         var score = ((baseline - time) / total_hits * 100).toFixed(2);
         var swap = first.toUpperCase() + first_pinyin + ' 和 ' +
-                   second.toUpperCase() + second_pinyin;
+          second.toUpperCase() + second_pinyin;
         swap_scores[swap] = score;
       }
 
@@ -940,10 +950,10 @@ function improve_scheme() {
 
   var swaps = Object.keys(swap_scores);
   if (swaps.length > 0) {
-    swaps.sort(function(a, b) { return swap_scores[b] - swap_scores[a]; });
+    swaps.sort(function (a, b) { return swap_scores[b] - swap_scores[a]; });
     for (var i = 0; i < swaps.length; ++i) {
       var option = document.createElement('option');
-      option.text = swap_scores[swaps[i]] +  ': 交换 ' + swaps[i] + '\n';
+      option.text = swap_scores[swaps[i]] + ': 交换 ' + swaps[i] + '\n';
       suggestions.add(option);
     }
   } else {
@@ -965,15 +975,15 @@ function apply_suggestion() {
   var key1 = items[2][0].toLowerCase();
   var x1 = layout[key1][0];
   var y1 = layout[key1][1];
-  var py1 = document.getElementById('py_' + y1 + x1).value;
+  var py1 = document.getElementById('py_' + y1 + '_' + x1).value;
 
   var key2 = items[4][0].toLowerCase();
   var x2 = layout[key2][0];
   var y2 = layout[key2][1];
-  var py2 = document.getElementById('py_' + y2 + x2).value;
+  var py2 = document.getElementById('py_' + y2 + '_' + x2).value;
 
-  document.getElementById('py_' + y1 + x1).value = py2;
-  document.getElementById('py_' + y2 + x2).value = py1;
+  document.getElementById('py_' + y1 + '_' + x1).value = py2;
+  document.getElementById('py_' + y2 + '_' + x2).value = py1;
 
   evaluate_current_scheme();
 }

@@ -1,326 +1,418 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>双拼方案评测和优化</title>
 
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="keywords" content="拼音,双拼,输入法,打字,键盘,布局,优化" />
-    <meta name="description" content="以汉字文稿评测双拼键盘的效率并提供优化建议" />
-    <meta name="author" content="麦可数" />
+<head>
+  <title>双拼方案评测和优化</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="shuang.png">
-    <link rel='stylesheet' href='evaluator.css'></link>
-    <script src='evaluator.js'></script>
-    <script src='hanzi_pinyin.js' defer></script>
-    <script src='exporter.js'></script>
-    <script src='char_info.js'></script>
-    <noscript>
-      <p>本网页需要支持Javascript的浏览器。</p>
-    </noscript>
-  </head>
-  <body onload='initialize_on_load()'>
-    <div class='evaluator'>
-      <h1>双拼方案评测、优化和生成
-        <a href='https://github.com/macroxue/shuangpin/blob/master/README.md#输入法生成器'>
-          (GitHub源码)
-        </a>
-      </h1>
-      <hr/>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="keywords" content="拼音,双拼,输入法,打字,键盘,布局,优化" />
+  <meta name="description" content="以汉字文稿评测双拼键盘的效率并提供优化建议" />
+  <meta name="author" content="麦可数" />
 
-      <div class='test-text'>
-        <table>
-          <tr>
-            <td>
-              <p/><b>测试文稿: </b>
-              <button id='stat' onclick='stat_pinyin()'>统计拼音频率</button>
-              <br/>
-              <textarea rows='6' cols='60' id='input-text'>
+  <link rel="shortcut icon" type="image/x-icon" href="shuang.png">
+  <link rel='stylesheet' href='evaluator.css'>
+  </link>
+  <script src='evaluator.js'></script>
+  <script src='hanzi_pinyin.js' defer></script>
+  <script src='exporter.js'></script>
+  <script src='char_info.js'></script>
+  <noscript>
+    <p>本网页需要支持Javascript的浏览器。</p>
+  </noscript>
+</head>
+
+<body onload='initialize_on_load()'>
+  <div class='evaluator'>
+    <h1>双拼方案评测、优化和生成
+      <a href='https://github.com/macroxue/shuangpin/blob/master/README.md#输入法生成器'>
+        (GitHub源码)
+      </a>
+    </h1>
+    <hr />
+
+    <div class='test-text'>
+      <table>
+        <tr>
+          <td>
+            <p /><b>测试文稿: </b>
+            <button id='stat' onclick='stat_pinyin()'>统计拼音频率</button>
+            <br />
+            <textarea rows='6' cols='60' id='input-text'>
 1. 在这里输入文稿。最快的方式是拷贝粘帖大量文本，比如一整本小说。处理几十万字不成问题。
 2. 定义双拼方案时以‘0’表示零声母。所有声母的位置都可以自定义，具体例子参见下面的‘乱序优化’方案。
 3. 支持在多个键位上定义同一个声母或韵母，程序会自动选取最佳组合。参见’大牛‘方案。
 4. 如果要添加笔画辅助码，则以 -、|、/、\、^ 分别表示横、竖、撇、点(捺)、折，参见’UAI优化顶功‘方案。
 5. 无理拼音可以更充分地利用编码空间并改进手感，代价是增加了记忆量。
               </textarea>
-            </td>
-            <td class='stats' id='pinyin-stats-cell'>
-              <p/><b>拼音: </b>
-              <input id='pinyin-stats-filter' onchange='show_pinyin_stats("pinyin")'/>
-              <br/>
-              <textarea readonly rows='6' cols='14' id='pinyin-stats'>
+          </td>
+          <td class='stats' id='pinyin-stats-cell'>
+            <p /><b>拼音: </b>
+            <input id='pinyin-stats-filter' onchange='show_pinyin_stats("pinyin")' />
+            <br />
+            <textarea readonly rows='6' cols='14' id='pinyin-stats'>
               </textarea>
-            </td>
-            <td class='stats' id='sheng-stats-cell'>
-              <p/><b>声母: </b>
-              <input id='sheng-stats-filter' onchange='show_pinyin_stats("sheng")'/>
-              <br/>
-              <textarea readonly rows='6' cols='14' id='sheng-stats'>
+          </td>
+          <td class='stats' id='sheng-stats-cell'>
+            <p /><b>声母: </b>
+            <input id='sheng-stats-filter' onchange='show_pinyin_stats("sheng")' />
+            <br />
+            <textarea readonly rows='6' cols='14' id='sheng-stats'>
               </textarea>
-            </td>
-            <td class='stats' id='yun-stats-cell'>
-              <p/><b>韵母: </b>
-              <input id='yun-stats-filter' onchange='show_pinyin_stats("yun")'/>
-              <br/>
-              <textarea readonly rows='6' cols='14' id='yun-stats'>
+          </td>
+          <td class='stats' id='yun-stats-cell'>
+            <p /><b>韵母: </b>
+            <input id='yun-stats-filter' onchange='show_pinyin_stats("yun")' />
+            <br />
+            <textarea readonly rows='6' cols='14' id='yun-stats'>
               </textarea>
-            </td>
-            <td class='stats' id='alphabet-stats-cell'>
-              <p/><b>符号: </b>
-              <input id='alphabet-stats-filter' onchange='show_pinyin_stats("alphabet")'/>
-              <br/>
-              <textarea readonly rows='6' cols='14' id='alphabet-stats'>
+          </td>
+          <td class='stats' id='alphabet-stats-cell'>
+            <p /><b>符号: </b>
+            <input id='alphabet-stats-filter' onchange='show_pinyin_stats("alphabet")' />
+            <br />
+            <textarea readonly rows='6' cols='14' id='alphabet-stats'>
               </textarea>
-            </td>
-          </tr>
-        </table>
-        <div class='stats-saved' id='pinyin-stats-saved'></div>
-        <div class='stats-saved' id='sheng-stats-saved'></div>
-        <div class='stats-saved' id='yun-stats-saved'></div>
-        <div class='stats-saved' id='alphabet-stats-saved'></div>
-      </div>
-
-      <div class='keyboard'>
-        <p/><b>双拼方案: </b>
-        <label>
-          <select id='scheme-name' onchange='select_scheme()'>
-            <option value='自定义'>自定义</option>
-            <option value='' disabled='disabled'>───常见───</option>
-            <option value='加加'>加加</option>
-            <option value='小鹤'>小鹤</option>
-            <option value='微软'>微软</option>
-            <option value='智能ABC'>智能ABC</option>
-            <option value='紫光'>紫光</option>
-            <option value='自然码'>自然码</option>
-            <option value='国标'>国标</option>
-            <option value='' disabled='disabled'>───特殊───</option>
-            <option value='大牛'>大牛</option>
-            <option value='飞猫'>飞猫</option>
-            <option value='乱序优化'>乱序优化</option>
-            <option value='全拼'>全拼</option>
-            <option value='' disabled='disabled'>───私人───</option>
-            <option value='UAI优化'>UAI优化</option>
-            <option value='UAI优化顶功'>UAI优化顶功</option>
-            <option value='六六'>六六</option>
-          </select>
-        </label>
-        <button onclick='evaluate_current_scheme()'>评测当前方案</button>
-        <button onclick='evaluate_all_schemes()'>评测所有方案</button>
-        <label>
-          <select id='ime-engine' onchange='export_scheme()'>
-            <option value='none'>输出当前方案</option>
-            <option value='fcitx'>Fcitx/小企鹅</option>
-            <option value='rime'>Rime/中州韵</option>
-            <option value='rime_smart'>Rime/中州韵+辅助码</option>
-          </select>
-        </label>
-        &nbsp; &nbsp; &nbsp; &nbsp;
-        <b>键盘布局: </b>
-        <label>
-          <select id='layout-name' onchange='select_scheme()'>
-            <option value='qwerty'>Qwerty</option>
-            <option value='dvorak'>Dvorak</option>
-            <option value='colemak'>Colemak</option>
-            <option value='workman'>Workman</option>
-          </select>
-        </label>
-        &nbsp; &nbsp; &nbsp; &nbsp;
-        <b>排列方式: </b>
-        <label>
-          <select id='geometry' onchange='select_scheme()'>
-            <option value='staggered'>传统/错排</option>
-            <option value='matrix'>矩阵</option>
-          </select>
-        </label>
-        <br/>
-        <table id='top-row'>
-          <tr>
-            <td><b id='key_00'></b><br/><input id='py_00'/><br/><div id='heat_00'></div></td>
-            <td><b id='key_01'></b><br/><input id='py_01'/><br/><div id='heat_01'></div></td>
-            <td><b id='key_02'></b><br/><input id='py_02'/><br/><div id='heat_02'></div></td>
-            <td><b id='key_03'></b><br/><input id='py_03'/><br/><div id='heat_03'></div></td>
-            <td><b id='key_04'></b><br/><input id='py_04'/><br/><div id='heat_04'></div></td>
-            <td><b id='key_05'></b><br/><input id='py_05'/><br/><div id='heat_05'></div></td>
-            <td><b id='key_06'></b><br/><input id='py_06'/><br/><div id='heat_06'></div></td>
-            <td><b id='key_07'></b><br/><input id='py_07'/><br/><div id='heat_07'></div></td>
-            <td><b id='key_08'></b><br/><input id='py_08'/><br/><div id='heat_08'></div></td>
-            <td><b id='key_09'></b><br/><input id='py_09'/><br/><div id='heat_09'></div></td>
-          </tr>
-        </table>
-        <table id='middle-row'>
-          <tr>
-            <td><b id='key_10'></b><br/><input id='py_10'/><br/><div id='heat_10'></div></td>
-            <td><b id='key_11'></b><br/><input id='py_11'/><br/><div id='heat_11'></div></td>
-            <td><b id='key_12'></b><br/><input id='py_12'/><br/><div id='heat_12'></div></td>
-            <td><b id='key_13'></b><br/><input id='py_13'/><br/><div id='heat_13'></div></td>
-            <td><b id='key_14'></b><br/><input id='py_14'/><br/><div id='heat_14'></div></td>
-            <td><b id='key_15'></b><br/><input id='py_15'/><br/><div id='heat_15'></div></td>
-            <td><b id='key_16'></b><br/><input id='py_16'/><br/><div id='heat_16'></div></td>
-            <td><b id='key_17'></b><br/><input id='py_17'/><br/><div id='heat_17'></div></td>
-            <td><b id='key_18'></b><br/><input id='py_18'/><br/><div id='heat_18'></div></td>
-            <td><b id='key_19'></b><br/><input id='py_19'/><br/><div id='heat_19'></div></td>
-          </tr>
-        </table>
-        <table id='bottom-row'>
-          <tr>
-            <td><b id='key_20'></b><br/><input id='py_20'/><br/><div id='heat_20'></div></td>
-            <td><b id='key_21'></b><br/><input id='py_21'/><br/><div id='heat_21'></div></td>
-            <td><b id='key_22'></b><br/><input id='py_22'/><br/><div id='heat_22'></div></td>
-            <td><b id='key_23'></b><br/><input id='py_23'/><br/><div id='heat_23'></div></td>
-            <td><b id='key_24'></b><br/><input id='py_24'/><br/><div id='heat_24'></div></td>
-            <td><b id='key_25'></b><br/><input id='py_25'/><br/><div id='heat_25'></div></td>
-            <td><b id='key_26'></b><br/><input id='py_26'/><br/><div id='heat_26'></div></td>
-            <td><b id='key_27'></b><br/><input id='py_27'/><br/><div id='heat_27'></div></td>
-            <td><b id='key_28'></b><br/><input id='py_28'/><br/><div id='heat_28'></div></td>
-            <td><b id='key_29'></b><br/><input id='py_29'/><br/><div id='heat_29'></div></td>
-          </tr>
-        </table>
-      </div>
-      <div class='irrational' id='irrational'>
-        <input type="checkbox" id='enable-irrational-pinyin'/>
-        <b>试验无理拼音: </b> <input id='irrational-pinyin' value='的=duang，是=shv，用=yeng' size='100'/>
-      </div>
-      <div class='result' id='result'>
-        <table>
-          <tr>
-            <td class='result'>
-              <p/><b>评测结果：</b> <b id='score'></b> &nbsp; <b id='error'></b>
-              <br/>
-              <table>
-                <tr>
-                  <td>
-                    <table class='stats'>
-                      <tr>
-                        <th>小指</th><th>无名指</th><th>中指</th><th>食指</th><th>左手</th>
-                      </tr>
-                      <tr>
-                        <td class='stats' id='finger_0'></td>
-                        <td class='stats' id='finger_1'></td>
-                        <td class='stats' id='finger_2'></td>
-                        <td class='stats' id='finger_3'></td>
-                        <td class='stats' id='left_hand'></td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                    <table class='stats'>
-                      <tr>
-                        <th>右手</th><th>食指</th><th>中指</th><th>无名指</th><th>小指</th>
-                      </tr>
-                      <tr>
-                        <td class='stats' id='right_hand'></td>
-                        <td class='stats' id='finger_6'></td>
-                        <td class='stats' id='finger_7'></td>
-                        <td class='stats' id='finger_8'></td>
-                        <td class='stats' id='finger_9'></td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                    <table class='stats'>
-                      <tr>
-                        <th>上排</th> <td class='stats' id='row_0'></td>
-                      </tr>
-                      <tr>
-                        <th>中排</th> <td class='stats' id='row_1'></td>
-                      </tr>
-                      <tr>
-                        <th>下排</th> <td class='stats' id='row_2'></td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-
-              <table>
-                <tr>
-                  <td>
-                    <b>&nbsp;</b>
-                    <table class='stats'>
-                      <tr>
-                        <th></th><th>击键数</th><th>时间</th><th>距离</th>
-                        <th>计时距离</th><th>不计时距离</th>
-                      </tr>
-                      <tr>
-                        <th>总数</th>
-                        <td class='stats' id='hits'></td>
-                        <td class='stats' id='time'></td>
-                        <td class='stats' id='distance'></td>
-                        <td class='stats' id='effective_distance'></td>
-                        <td class='stats' id='overlap_distance'></td>
-                      </tr>
-                      <tr>
-                        <th>平均每键</th>
-                        <td class='stats'></td>
-                        <td class='stats' id='avg_time'></td>
-                        <td class='stats' id='avg_distance'></td>
-                        <td class='stats' id='avg_effective_distance'></td>
-                        <td class='stats' id='avg_overlap_distance'></td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                    <b>同手连击: </b><b id='same_hand'></b>
-                    <table class='stats'>
-                      <tr>
-                        <th></th><th>0 距离</th><th>1 距离</th><th>2 距离</th>
-                      </tr>
-                      <tr>
-                        <th>同指连击</th>
-                        <td class='stats' id='same_finger_0'></td>
-                        <td class='stats' id='same_finger_1'></td>
-                        <td class='stats' id='same_finger_2'></td>
-                      </tr>
-                      <tr>
-                        <th>同手异指连击</th>
-                        <td class='stats' id='diff_finger_0'></td>
-                        <td class='stats' id='diff_finger_1'></td>
-                        <td class='stats' id='diff_finger_2'></td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              &nbsp; &nbsp; &nbsp;
-            </td>
-            <td class='result' id='improvement'>
-              <p/><b>优化：</b>
-              <button id='improve' onclick='improve_scheme()'>建议</button><br/>
-              <select id='suggestion' onclick='apply_suggestion()' size=10>
-              </select>
-            </td>
-          </tr>
-        </table>
-
-        <p/><b>说明：</b>
-        <ul>
-          <li>
-            测试模型中的时间和距离只有相对的意义，所以结果只可以在
-            不同方案之间进行比较。
-          </li>
-          <li>
-            手指的灵活度，也就是移动和击键的速度，是不同的。模型假定
-            食指最灵活，中指和无名指次之，小指最不灵活。
-          </li>
-          <li>
-            两手交替击键时，一手击键的同时另一手可以移动到位，这样的
-            重叠移动不被计时。
-          </li>
-          <li>
-            同手连击时，第二击之前的移动是被计时的。
-          </li>
-          <li>
-            所有的向下按键动作都被计时。
-          </li>
-        </ul>
-
-      </div>
+          </td>
+        </tr>
+      </table>
+      <div class='stats-saved' id='pinyin-stats-saved'></div>
+      <div class='stats-saved' id='sheng-stats-saved'></div>
+      <div class='stats-saved' id='yun-stats-saved'></div>
+      <div class='stats-saved' id='alphabet-stats-saved'></div>
     </div>
-  </body>
+
+    <div class='keyboard'>
+      <p /><b>双拼方案: </b>
+      <label>
+        <select id='scheme-name' onchange='select_scheme()'>
+          <option value='自定义'>自定义</option>
+          <option value='' disabled='disabled'>───常见───</option>
+          <option value='加加'>加加</option>
+          <option value='小鹤'>小鹤</option>
+          <option value='微软'>微软</option>
+          <option value='智能ABC'>智能ABC</option>
+          <option value='紫光'>紫光</option>
+          <option value='自然码'>自然码</option>
+          <option value='国标'>国标</option>
+          <option value='' disabled='disabled'>───特殊───</option>
+          <option value='大牛'>大牛</option>
+          <option value='飞猫'>飞猫</option>
+          <option value='乱序优化'>乱序优化</option>
+          <option value='全拼'>全拼</option>
+          <option value='' disabled='disabled'>───私人───</option>
+          <option value='UAI优化'>UAI优化</option>
+          <option value='UAI优化顶功'>UAI优化顶功</option>
+          <option value='六六'>六六</option>
+        </select>
+      </label>
+      <button onclick='evaluate_current_scheme()'>评测当前方案</button>
+      <button onclick='evaluate_all_schemes()'>评测所有方案</button>
+      <label>
+        <select id='ime-engine' onchange='export_scheme()'>
+          <option value='none'>输出当前方案</option>
+          <option value='fcitx'>Fcitx/小企鹅</option>
+          <option value='rime'>Rime/中州韵</option>
+          <option value='rime_smart'>Rime/中州韵+辅助码</option>
+        </select>
+      </label>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <b>键盘布局: </b>
+      <label>
+        <select id='layout-name' onchange='select_scheme()'>
+          <option value='qwerty'>Qwerty</option>
+          <option value='dvorak'>Dvorak</option>
+          <option value='colemak'>Colemak</option>
+          <option value='workman'>Workman</option>
+          <option value='engrammer'>Engrammer</option>
+        </select>
+      </label>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <b>排列方式: </b>
+      <label>
+        <select id='geometry' onchange='select_scheme()'>
+          <option value='staggered'>传统/错排</option>
+          <option value='matrix'>矩阵</option>
+        </select>
+      </label>
+      <br />
+      <table id='top-row'>
+        <tr>
+          <td><b id='key_0_0'></b><br /><input id='py_0_0' /><br />
+            <div id='heat_0_0'></div>
+          </td>
+          <td><b id='key_0_1'></b><br /><input id='py_0_1' /><br />
+            <div id='heat_0_1'></div>
+          </td>
+          <td><b id='key_0_2'></b><br /><input id='py_0_2' /><br />
+            <div id='heat_0_2'></div>
+          </td>
+          <td><b id='key_0_3'></b><br /><input id='py_0_3' /><br />
+            <div id='heat_0_3'></div>
+          </td>
+          <td><b id='key_0_4'></b><br /><input id='py_0_4' /><br />
+            <div id='heat_0_4'></div>
+          </td>
+          <td><b id='key_0_5'></b><br /><input id='py_0_5' /><br />
+            <div id='heat_0_5'></div>
+          </td>
+          <td><b id='key_0_6'></b><br /><input id='py_0_6' /><br />
+            <div id='heat_0_6'></div>
+          </td>
+          <td><b id='key_0_7'></b><br /><input id='py_0_7' /><br />
+            <div id='heat_0_7'></div>
+          </td>
+          <td><b id='key_0_8'></b><br /><input id='py_0_8' /><br />
+            <div id='heat_0_8'></div>
+          </td>
+          <td><b id='key_0_9'></b><br /><input id='py_0_9' /><br />
+            <div id='heat_0_9'></div>
+          </td>
+          <td><b id='key_0_10'></b><br /><input id='py_0_10' /><br />
+            <div id='heat_0_10'></div>
+          </td>
+        </tr>
+      </table>
+      <table id='middle-row'>
+        <tr>
+          <td><b id='key_1_0'></b><br /><input id='py_1_0' /><br />
+            <div id='heat_1_0'></div>
+          </td>
+          <td><b id='key_1_1'></b><br /><input id='py_1_1' /><br />
+            <div id='heat_1_1'></div>
+          </td>
+          <td><b id='key_1_2'></b><br /><input id='py_1_2' /><br />
+            <div id='heat_1_2'></div>
+          </td>
+          <td><b id='key_1_3'></b><br /><input id='py_1_3' /><br />
+            <div id='heat_1_3'></div>
+          </td>
+          <td><b id='key_1_4'></b><br /><input id='py_1_4' /><br />
+            <div id='heat_1_4'></div>
+          </td>
+          <td><b id='key_1_5'></b><br /><input id='py_1_5' /><br />
+            <div id='heat_1_5'></div>
+          </td>
+          <td><b id='key_1_6'></b><br /><input id='py_1_6' /><br />
+            <div id='heat_1_6'></div>
+          </td>
+          <td><b id='key_1_7'></b><br /><input id='py_1_7' /><br />
+            <div id='heat_1_7'></div>
+          </td>
+          <td><b id='key_1_8'></b><br /><input id='py_1_8' /><br />
+            <div id='heat_1_8'></div>
+          </td>
+          <td><b id='key_1_9'></b><br /><input id='py_1_9' /><br />
+            <div id='heat_1_9'></div>
+          </td>
+          <td><b id='key_1_10'></b><br /><input id='py_1_10' /><br />
+            <div id='heat_1_10'></div>
+          </td>
+        </tr>
+      </table>
+      <table id='bottom-row'>
+        <tr>
+          <td><b id='key_2_0'></b><br /><input id='py_2_0' /><br />
+            <div id='heat_2_0'></div>
+          </td>
+          <td><b id='key_2_1'></b><br /><input id='py_2_1' /><br />
+            <div id='heat_2_1'></div>
+          </td>
+          <td><b id='key_2_2'></b><br /><input id='py_2_2' /><br />
+            <div id='heat_2_2'></div>
+          </td>
+          <td><b id='key_2_3'></b><br /><input id='py_2_3' /><br />
+            <div id='heat_2_3'></div>
+          </td>
+          <td><b id='key_2_4'></b><br /><input id='py_2_4' /><br />
+            <div id='heat_2_4'></div>
+          </td>
+          <td><b id='key_2_5'></b><br /><input id='py_2_5' /><br />
+            <div id='heat_2_5'></div>
+          </td>
+          <td><b id='key_2_6'></b><br /><input id='py_2_6' /><br />
+            <div id='heat_2_6'></div>
+          </td>
+          <td><b id='key_2_7'></b><br /><input id='py_2_7' /><br />
+            <div id='heat_2_7'></div>
+          </td>
+          <td><b id='key_2_8'></b><br /><input id='py_2_8' /><br />
+            <div id='heat_2_8'></div>
+          </td>
+          <td><b id='key_2_9'></b><br /><input id='py_2_9' /><br />
+            <div id='heat_2_9'></div>
+          </td>
+          <td><b id='key_2_10'></b><br /><input id='py_2_10' /><br />
+            <div id='heat_2_10'></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class='irrational' id='irrational'>
+      <input type="checkbox" id='enable-irrational-pinyin' />
+      <b>试验无理拼音: </b> <input id='irrational-pinyin' value='的=duang，是=shv，用=yeng' size='100' />
+    </div>
+    <div class='result' id='result'>
+      <table>
+        <tr>
+          <td class='result'>
+            <p /><b>评测结果：</b> <b id='score'></b> &nbsp; <b id='error'></b>
+            <br />
+            <table>
+              <tr>
+                <td>
+                  <table class='stats'>
+                    <tr>
+                      <th>小指</th>
+                      <th>无名指</th>
+                      <th>中指</th>
+                      <th>食指</th>
+                      <th>左手</th>
+                    </tr>
+                    <tr>
+                      <td class='stats' id='finger_0'></td>
+                      <td class='stats' id='finger_1'></td>
+                      <td class='stats' id='finger_2'></td>
+                      <td class='stats' id='finger_3'></td>
+                      <td class='stats' id='left_hand'></td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                </td>
+                <td>
+                  <table class='stats'>
+                    <tr>
+                      <th>右手</th>
+                      <th>食指</th>
+                      <th>中指</th>
+                      <th>无名指</th>
+                      <th>小指</th>
+                    </tr>
+                    <tr>
+                      <td class='stats' id='right_hand'></td>
+                      <td class='stats' id='finger_6'></td>
+                      <td class='stats' id='finger_7'></td>
+                      <td class='stats' id='finger_8'></td>
+                      <td class='stats' id='finger_9'></td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                </td>
+                <td>
+                  <table class='stats'>
+                    <tr>
+                      <th>上排</th>
+                      <td class='stats' id='row_0'></td>
+                    </tr>
+                    <tr>
+                      <th>中排</th>
+                      <td class='stats' id='row_1'></td>
+                    </tr>
+                    <tr>
+                      <th>下排</th>
+                      <td class='stats' id='row_2'></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <table>
+              <tr>
+                <td>
+                  <b>&nbsp;</b>
+                  <table class='stats'>
+                    <tr>
+                      <th></th>
+                      <th>击键数</th>
+                      <th>时间</th>
+                      <th>距离</th>
+                      <th>计时距离</th>
+                      <th>不计时距离</th>
+                    </tr>
+                    <tr>
+                      <th>总数</th>
+                      <td class='stats' id='hits'></td>
+                      <td class='stats' id='time'></td>
+                      <td class='stats' id='distance'></td>
+                      <td class='stats' id='effective_distance'></td>
+                      <td class='stats' id='overlap_distance'></td>
+                    </tr>
+                    <tr>
+                      <th>平均每键</th>
+                      <td class='stats'></td>
+                      <td class='stats' id='avg_time'></td>
+                      <td class='stats' id='avg_distance'></td>
+                      <td class='stats' id='avg_effective_distance'></td>
+                      <td class='stats' id='avg_overlap_distance'></td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                </td>
+                <td>
+                  <b>同手连击: </b><b id='same_hand'></b>
+                  <table class='stats'>
+                    <tr>
+                      <th></th>
+                      <th>0 距离</th>
+                      <th>1 距离</th>
+                      <th>2 距离</th>
+                    </tr>
+                    <tr>
+                      <th>同指连击</th>
+                      <td class='stats' id='same_finger_0'></td>
+                      <td class='stats' id='same_finger_1'></td>
+                      <td class='stats' id='same_finger_2'></td>
+                    </tr>
+                    <tr>
+                      <th>同手异指连击</th>
+                      <td class='stats' id='diff_finger_0'></td>
+                      <td class='stats' id='diff_finger_1'></td>
+                      <td class='stats' id='diff_finger_2'></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            &nbsp; &nbsp; &nbsp;
+          </td>
+          <td class='result' id='improvement'>
+            <p /><b>优化：</b>
+            <button id='improve' onclick='improve_scheme()'>建议</button><br />
+            <select id='suggestion' onclick='apply_suggestion()' size=10>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <p /><b>说明：</b>
+      <ul>
+        <li>
+          测试模型中的时间和距离只有相对的意义，所以结果只可以在
+          不同方案之间进行比较。
+        </li>
+        <li>
+          手指的灵活度，也就是移动和击键的速度，是不同的。模型假定
+          食指最灵活，中指和无名指次之，小指最不灵活。
+        </li>
+        <li>
+          两手交替击键时，一手击键的同时另一手可以移动到位，这样的
+          重叠移动不被计时。
+        </li>
+        <li>
+          同手连击时，第二击之前的移动是被计时的。
+        </li>
+        <li>
+          所有的向下按键动作都被计时。
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</body>
+
 </html>
