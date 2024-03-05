@@ -14,8 +14,8 @@ var schemes = {
   UAI优化顶功: 'Q=iu,W=en,E=zh,R=ou,T=ue ve ui,Y=uan,U=sh,I=ch,O=uo -,P=un,A=^,S=ao,D=ang,F=eng er,G=ing,H=ong iong,J=ai 0,K=an,L=ian uai,FH=iang uang \\,X=ia ua,C=ie,V=|,B=in,N=iao,M=ei,CH=/',
   乱序优化: 'Q=ua,W=x uan,E=q uang v,R=j ue ve ui,T=0 un,Y=c iu,U=g ing,I=k iong ou,O=h iang,P=ie,A=t ong,S=l ao,D=y ai,F=d an,G=n ang,H=r in,J=sh e,K=w i er,L=zh u,FH=ch a ia,Z=p ei,X=m en,C=f eng,V=b o uo,B=uai,N=s iao,M=z ian',
   六六: 'W=ao,R=ei,T=ian,Y=iao,U=sh,I=ch,O=uo,P=ou,S=ai,D=en,F=eng,G=ua ia,H=uai ue ve,J=un,K=in,L=ing,FH=ong iong,Z=an,X=ang,C=ie er,V=zh ui,B=uan,N=uang iang,M=iu',
-  自定义: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
-  empty: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
+  自定义: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,YH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=,KH=',
+  empty: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,YH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=,KH=',
   全拼: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
   星空键道: 'Q=zh iu ua,W=ch ei un,E=sh e,R=eng,T=uan,Y=iong ong,U=,I=,O=,P=ang,A=,S=a ia,D=ie ou,F=zh an,G=ing uai,H=ai ue ve,J=ch er u,K=i,L=o uo v,Z=ao,X=0 iang uang,C=iao,V=,B=in ui,N=en,M=ian uang',
 };
@@ -30,7 +30,7 @@ var keyboard_layouts = {
     'a': [0, 1], 's': [1, 1], 'd': [2, 1], 'f': [3, 1], 'g': [4, 1],
     'h': [5, 1], 'j': [6, 1], 'k': [7, 1], 'l': [8, 1], ';': [9, 1], '\'': [10, 1],
     'z': [0, 2], 'x': [1, 2], 'c': [2, 2], 'v': [3, 2], 'b': [4, 2],
-    'n': [5, 2], 'm': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '~': [10, 2],
+    'n': [5, 2], 'm': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '-': [10, 2],
   },
   dvorak: {
     '\'': [0, 0], ',': [1, 0], '.': [2, 0], 'p': [3, 0], 'y': [4, 0],
@@ -38,7 +38,7 @@ var keyboard_layouts = {
     'a': [0, 1], 'o': [1, 1], 'e': [2, 1], 'u': [3, 1], 'i': [4, 1],
     'd': [5, 1], 'h': [6, 1], 't': [7, 1], 'n': [8, 1], 's': [9, 1], '-': [10, 1],
     ';': [0, 2], 'q': [1, 2], 'j': [2, 2], 'k': [3, 2], 'x': [4, 2],
-    'b': [5, 2], 'm': [6, 2], 'w': [7, 2], 'v': [8, 2], 'z': [9, 2], '~': [10, 2],
+    'b': [5, 2], 'm': [6, 2], 'w': [7, 2], 'v': [8, 2], 'z': [9, 2], '[': [10, 2],
   },
   colemak: {
     'q': [0, 0], 'w': [1, 0], 'f': [2, 0], 'p': [3, 0], 'g': [4, 0],
@@ -46,7 +46,7 @@ var keyboard_layouts = {
     'a': [0, 1], 'r': [1, 1], 's': [2, 1], 't': [3, 1], 'd': [4, 1],
     'h': [5, 1], 'n': [6, 1], 'e': [7, 1], 'i': [8, 1], 'o': [9, 1], '\'': [10, 1],
     'z': [0, 2], 'x': [1, 2], 'c': [2, 2], 'v': [3, 2], 'b': [4, 2],
-    'k': [5, 2], 'm': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '~': [10, 2],
+    'k': [5, 2], 'm': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '-': [10, 2],
   },
   workman: {
     'q': [0, 0], 'd': [1, 0], 'r': [2, 0], 'w': [3, 0], 'b': [4, 0],
@@ -54,7 +54,7 @@ var keyboard_layouts = {
     'a': [0, 1], 's': [1, 1], 'h': [2, 1], 't': [3, 1], 'g': [4, 1],
     'y': [5, 1], 'n': [6, 1], 'e': [7, 1], 'o': [8, 1], 'i': [9, 1], '\'': [10, 1],
     'z': [0, 2], 'x': [1, 2], 'm': [2, 2], 'c': [3, 2], 'v': [4, 2],
-    'k': [5, 2], 'l': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '~': [10, 2],
+    'k': [5, 2], 'l': [6, 2], ',': [7, 2], '.': [8, 2], '/': [9, 2], '-': [10, 2],
   },
   engrammer: {
     'b': [0, 0], 'y': [1, 0], 'o': [2, 0], 'u': [3, 0], '\'': [4, 0],
@@ -62,7 +62,7 @@ var keyboard_layouts = {
     'c': [0, 1], 'i': [1, 1], 'e': [2, 1], 'a': [3, 1], ',': [4, 1],
     '.': [5, 1], 'h': [6, 1], 't': [7, 1], 's': [8, 1], 'n': [9, 1], 'q': [10, 1],
     'g': [0, 2], 'x': [1, 2], 'j': [2, 2], 'k': [3, 2], '-': [4, 2],
-    '/': [5, 2], 'r': [6, 2], 'm': [7, 2], 'f': [8, 2], 'p': [9, 2], '~': [10, 2],
+    '/': [5, 2], 'r': [6, 2], 'm': [7, 2], 'f': [8, 2], 'p': [9, 2], '[': [10, 2],
   },
 }
 
@@ -79,12 +79,12 @@ var finger_speed = [0.6, 0.9, 0.9, 1.0, 1.0, 1.0, 1.0, 0.9, 0.9, 0.6];
 var press_depth = 0.2;
 
 // Maps between  punctuations to keys.
-var punctuation_names = { ';': 'FH', ',': 'DH', '.': 'JH', '/': 'CH', '\'': 'YH' };
-var punctuation_keys = { 'FH': ';', 'DH': ',', 'JH': '.', 'CH': '/', 'YH': '\'' };
+var punctuation_names = { ';': 'FH', ',': 'DH', '.': 'JH', '/': 'CH', '\'': 'YH', "-": 'KH' };
+var punctuation_keys = { 'FH': ';', 'DH': ',', 'JH': '.', 'CH': '/', 'YH': '\'', "KH": "-" };
 
 // Punctuations from input text.
 var punctuations = {
-  '，': ',', '。': '.', '；': ';', ',': ',', '.': '.', ';': ';', '/': '/'
+  '，': ',', '。': '.', '；': ';', ',': ',', '.': '.', ';': ';', '/': '/', '-': '-'
 };
 
 var letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -341,8 +341,8 @@ function show_scheme(scheme_name) {
   for (var i = 0; i < assignments.length; ++i) {
     var items = assignments[i].split('=');
     var key = key_name_to_key(items[0]);
-    // console.log("key " + key);
-    // console.log("items " + items)
+    console.log("key " + key);
+    console.log("items " + items);
     var x = layout[key][0];
     var y = layout[key][1];
     document.getElementById('py_' + y + '_' + x).value = items[1];
@@ -709,7 +709,7 @@ function show_results(scheme_name) {
   var finger_load = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   var left_load = 0, right_load = 0;
   for (var y = 0; y < 3; ++y) {
-    for (var x = 0; x < 10; ++x) {
+    for (var x = 0; x < 11; ++x) {
       var heat = result.heat_map[y][x];
       row_load[y] += heat;
       finger_load[column_finger[x]] += heat;
