@@ -17,7 +17,7 @@ var schemes = {
   自定义: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
   empty: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
   全拼: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
-  星空键道: 'Q=zh iu ua,W=ch ei un,E=sh e,R=eng,T=uan,Y=iong ong,P=ang,S=a ia,D=ie ou,F=zh an,G=ing uai,H=ai ue ve,J=ch er u,K= i,L=o uo v,Z=ao,X=iang uang 0,C=iao,B=in ui,N=en,M=ian uang',
+  星空键道: 'Q=zh iu ua,W=ch ei un,E=sh e,R=eng,T=uan,Y=iong ong,U=,I=,O=,P=ang,A=,S=a ia,D=ie ou,F=zh an,G=ing uai,H=ai ue ve,J=ch er u,K=i,L=o uo v,Z=ao,X=0 iang uang,C=iao,V=,B=in ui,N=en,M=ian uang',
 };
 
 // Evaluation results of all schemes.
@@ -341,8 +341,8 @@ function show_scheme(scheme_name) {
   for (var i = 0; i < assignments.length; ++i) {
     var items = assignments[i].split('=');
     var key = key_name_to_key(items[0]);
-    console.log("key " + key);
-    console.log("items " + items)
+    // console.log("key " + key);
+    // console.log("items " + items)
     var x = layout[key][0];
     var y = layout[key][1];
     document.getElementById('py_' + y + '_' + x).value = items[1];
@@ -432,10 +432,13 @@ function read_pinyin_map_from_scheme(scheme) {
       }
     }
   }
-
+  console.log("pinyin map");
+  console.error(error);
+  console.log(pinyin_map);
   // Setup default mapping for single letters.
   for (var i = 0; i < letters.length; ++i) {
     if (pinyin_map[letters[i]] == null) {
+      console.log("缺失字符 " + letters[i]);
       pinyin_map[letters[i]] = letters[i];
     }
   }
