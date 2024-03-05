@@ -16,7 +16,8 @@ var schemes = {
   六六: 'W=ao,R=ei,T=ian,Y=iao,U=sh,I=ch,O=uo,P=ou,S=ai,D=en,F=eng,G=ua ia,H=uai ue ve,J=un,K=in,L=ing,FH=ong iong,Z=an,X=ang,C=ie er,V=zh ui,B=uan,N=uang iang,M=iu',
   自定义: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
   empty: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
-  全拼: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH='
+  全拼: 'Q=,W=,E=,R=,T=,Y=,U=,I=,O=,P=,A=,S=,D=,F=,G=,H=,J=,K=,L=,FH=,Z=,X=,C=,V=,B=,N=,M=,DH=,JH=,CH=',
+  星空键道: 'Q=zh iu ua,W=ch ei un,E=sh e,R=eng,T=uan,Y=iong ong,P=ang,S=a ia,D=ie ou,F=zh an,G=ing uai,H=ai ue ve,J=ch er u,K= i,L=o uo v,Z=ao,X=iang uang 0,C=iao,B=in ui,N=en,M=ian uang',
 };
 
 // Evaluation results of all schemes.
@@ -339,8 +340,9 @@ function show_scheme(scheme_name) {
   var assignments = scheme.split(',');
   for (var i = 0; i < assignments.length; ++i) {
     var items = assignments[i].split('=');
-    console.log(items);
     var key = key_name_to_key(items[0]);
+    console.log("key " + key);
+    console.log("items " + items)
     var x = layout[key][0];
     var y = layout[key][1];
     document.getElementById('py_' + y + '_' + x).value = items[1];
